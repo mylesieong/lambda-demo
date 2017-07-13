@@ -43,15 +43,70 @@ public class DemoLambda{
     }
 
     public static void main(String[] args){
-        printPersons(roster, new CheckPersonOlderThan15());
-        printPersons(roster, new CheckPersonOlderThan18());
-        printPersons(roster, new CheckPersonYoungerThan15());
-        printPersons(roster, new CheckPersonYoungerThan18());
-        printPersons(roster, new CheckPersonWithinRange15To18());
-        printPersons(roster, new CheckPersonAdultMale());
-        printPersons(roster, new CheckPersonFemale());
-        refreshAges(roster, new CheckPersonServerLondon());
-        refreshAddresses(roster, new CheckPersonServerCairo());
+
+        printPersons(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getAge() >= 15;
+            }
+        });
+
+        printPersons(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getAge() >= 18;
+            }
+        });
+
+        printPersons(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getAge() < 15;
+            }
+        });
+
+        printPersons(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getAge() < 18;
+            }
+        });
+
+        printPersons(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getAge() >= 15 && p.getAge() < 18;
+            }
+        });
+
+        printPersons(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE;
+            }
+        });
+
+        printPersons(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getGender() == Person.PERSON_FEMALE;
+            }
+        });
+
+        refreshAges(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getServer() == Person.SERVER_LONDON;
+            }
+        });
+
+        refreshAddresses(roster, new CheckPerson(){
+            @Override
+            public boolean test(Person p){
+                return p.getServer() == Person.SERVER_CAIRO;
+            }
+        });
+
     }
 
     public static void printPersons(List<Person> r, CheckPerson c){
@@ -83,69 +138,6 @@ public class DemoLambda{
 
     public interface CheckPerson{
         public boolean test(Person p);
-    }
-
-    public static class CheckPersonOlderThan15 implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getAge() >= 15; 
-        } 
-    }
-
-    public static class CheckPersonOlderThan18 implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getAge() >= 18; 
-        } 
-    }
-
-    public static class CheckPersonYoungerThan15 implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getAge() < 15; 
-        } 
-    }
-
-    public static class CheckPersonYoungerThan18 implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getAge() < 18; 
-        } 
-    }
-
-    public static class CheckPersonWithinRange15To18 implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getAge() >= 15 && p.getAge() < 18; 
-        } 
-    }
-
-    public static class CheckPersonAdultMale implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE ; 
-        } 
-    }
-
-    public static class CheckPersonFemale implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getGender() == Person.PERSON_FEMALE ; 
-        } 
-    }
-
-    public static class CheckPersonServerLondon implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getServer() == Person.SERVER_LONDON; 
-        } 
-    }
-
-    public static class CheckPersonServerCairo implements CheckPerson {
-        @Override
-        public boolean test(Person p){ 
-            return p.getServer() == Person.SERVER_CAIRO; 
-        } 
     }
 
     public static class Person {
