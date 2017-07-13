@@ -22,8 +22,8 @@ DemoLambda
         <calls> printPersonWithinAgeRange 15~18
         <calls> printPersonAdultMale
         <calls> printPersonFemale
-        <calls> refreshAgeByServer(List<Person>, int): void 
-        <calls> refreshAddressByServer(List<Person>, int): void
+        <calls> refreshAgeByServer(List<Person>, int) Server in London 
+        <calls> refreshAddressByServer(List<Person>, int) Server in Cairo
 
     + printPersonOlderThan(List<Person>, int): void
     + printPersonYoungerThan(List<Person>, int): void
@@ -44,11 +44,13 @@ In this stage, we generic the printPerson methods with a checker/mapper/filter i
 DemoLambda
     + roster: List<Person>
     + main(String[]): void
-        <calls> printPerson x 7 times
-
-    + printPerson(List<Person>, CheckPerson): void
-    + refreshPersonAge(List<Person>, CheckPerson): void
-    + refreshPersonAddress(List<Person>, CheckPerson): void
+        <calls> printPersons x 7 times
+        <calls> refreshAges(List<Person>, CheckPerson) x 1 times London
+        <calls> refreshAddresses(List<Person>, CheckPerson) x 1 times Cairo
+        
+    + printPersons(List<Person>, CheckPerson): void
+    + refreshAges(List<Person>, CheckPerson): void
+    + refreshAddresses(List<Person>, CheckPerson): void
 
     + CheckPerson - interface
     + CheckPersonOlderThan15 - impl
@@ -58,7 +60,8 @@ DemoLambda
     + CheckPersonWithinRange15To18 - impl
     + CheckPersonAdultMale - impl
     + CheckPersonFemale - impl
-    + CheckPersonServer - impl
+    + CheckPersonServerLondon - impl
+    + CheckPersonServerCairo - impl
 
     + Person
         + getters & setters
@@ -71,13 +74,13 @@ Though the printPerson method became reusable, there are too many impl of CheckP
 DemoLambda
     + roster: List<Person>
     + main(String[]): void
-        <calls> printPerson x 7 times w/ anonymous class
-        <calls> refreshPersonAge w/ anonymous class
-        <calls> refreshPersonAddress w/ anonymous class
+        <calls> printPersons x 7 times w/ anonymous class
+        <calls> refreshAges w/ anonymous class
+        <calls> refreshAddresses w/ anonymous class
 
-    + printPerson(List<Person>, CheckPerson): void
-    + refreshPersonAge(List<Person>, CheckPerson): void
-    + refreshPersonAddress(List<Person>, CheckPerson): void
+    + printPersons(List<Person>, CheckPerson): void
+    + refreshAges(List<Person>, CheckPerson): void
+    + refreshAddresses(List<Person>, CheckPerson): void
 
     + CheckPerson - interface
 
@@ -92,13 +95,13 @@ Why? simplified the code and make the meaning of code more accurate.
 DemoLambda
     + roster: List<Person>
     + main(String[]): void
-        <calls> printPerson x 7 times w/ Lambda
-        <calls> refreshPersonAge w/ Lambda
-        <calls> refreshPersonAddress w/ Lambda
+        <calls> printPersons x 7 times w/ Lambda
+        <calls> refreshAges w/ Lambda
+        <calls> refreshAddresses w/ Lambda
 
-    + printPerson(List<Person>, CheckPerson): void
-    + refreshPersonAge(List<Person>, CheckPerson): void
-    + refreshPersonAddress(List<Person>, CheckPerson): void
+    + printPersons(List<Person>, CheckPerson): void
+    + refreshAges(List<Person>, CheckPerson): void
+    + refreshAddresses(List<Person>, CheckPerson): void
 
     + CheckPerson - interface
 
@@ -113,13 +116,13 @@ Why? no new domain-dependent interface/ class is needed
 DemoLambda
     + roster: List<Person>
     + main(String[]): void
-        <calls> printPerson x 7 times w/ Lambda
-        <calls> refreshPersonAge w/ Lambda
-        <calls> refreshPersonAddress w/ Lambda
+        <calls> printPersons x 7 times w/ Lambda
+        <calls> refreshAges w/ Lambda
+        <calls> refreshAddresses w/ Lambda
 
-    + printPerson(List<Person>, Predicate<T>): void
-    + refreshPersonAge(List<Person>, Predicate<T>): void
-    + refreshPersonAddress(List<Person>, Predicate<T>): void
+    + printPersons(List<Person>, Predicate<T>): void
+    + refreshAges(List<Person>, Predicate<T>): void
+    + refreshAddresses(List<Person>, Predicate<T>): void
 
     + Person
         + getters & setters
@@ -132,9 +135,9 @@ Why? Decouple printPerson method from "print" to processPerson
 DemoLambda
     + roster: List<Person>
     + main(String[]): void
-        <calls> processPerson x 9 times w/ Lambda
+        <calls> processPersons x 9 times w/ Lambda
 
-    + processPerson(List<Person>, Predicate<T>, Consumer<T>): void
+    + processPersons(List<Person>, Predicate<T>, Consumer<T>): void
 
     + Person
         + getters & setters
