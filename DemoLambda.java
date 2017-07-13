@@ -1,6 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.function.Predicate;
+import java.util.function.Consumer;
 
 public class DemoLambda{
 
@@ -45,75 +46,66 @@ public class DemoLambda{
 
     public static void main(String[] args){
 
-        printPersons(
+        processPersons(
             roster, 
-            p -> p.getAge() >= 15
+            p -> p.getAge() >= 15,
+            p -> System.out.println(p)
         );
 
-        printPersons(
+        processPersons(
             roster,
-            p -> p.getAge() >= 18
+            p -> p.getAge() >= 18,
+            p -> System.out.println(p)
         );
 
-        printPersons(
+        processPersons(
             roster,
-            p -> p.getAge() < 15
+            p -> p.getAge() < 15,
+            p -> System.out.println(p)
         );
 
-        printPersons(
+        processPersons(
             roster,
-            p -> p.getAge() < 18
+            p -> p.getAge() < 18,
+            p -> System.out.println(p)
         );
 
-        printPersons(
+        processPersons(
             roster,
-            p -> p.getAge() >= 15 && p.getAge() < 18
+            p -> p.getAge() >= 15 && p.getAge() < 18,
+            p -> System.out.println(p)
         );
 
-        printPersons(
+        processPersons(
             roster,
-            p -> p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE
+            p -> p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE,
+            p -> System.out.println(p)
         );
 
-        printPersons(
+        processPersons(
             roster,
-            p -> p.getGender() == Person.PERSON_FEMALE
+            p -> p.getGender() == Person.PERSON_FEMALE,
+            p -> System.out.println(p)
         );
 
-        refreshAges(
+        processPersons(
             roster,
-            p -> p.getServer() == Person.SERVER_LONDON
+            p -> p.getServer() == Person.SERVER_LONDON,
+            p -> p.refreshAge()
         );
 
-        refreshAddresses(
+        processPersons(
             roster,
-            p -> p.getServer() == Person.SERVER_CAIRO
+            p -> p.getServer() == Person.SERVER_CAIRO,
+            p -> p.refreshAddress()
         );
 
     }
 
-    public static void printPersons(List<Person> r, Predicate<Person> pre){
+    public static void processPersons(List<Person> r, Predicate<Person> pre, Consumer<Person> con){
         for (Person p: r){
-            if (pre.test(p)){
-                System.out.println(p);
-            }
-        }
-        System.out.println();
-    }
-    
-    public static void refreshAges(List<Person> r, Predicate<Person> pre){
-        for (Person p: r){
-            if (pre.test(p)){
-                p.refreshAge();
-            }
-        }
-        System.out.println();
-    }
-
-    public static void refreshAddresses(List<Person> r, Predicate<Person> pre){
-        for (Person p: r){
-            if (pre.test(p)){
-                p.refreshAddress();
+            if (pre.test(p)) {
+                con.accept(p);
             }
         }
         System.out.println();
