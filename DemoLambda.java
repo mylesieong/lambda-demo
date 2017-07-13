@@ -44,68 +44,50 @@ public class DemoLambda{
 
     public static void main(String[] args){
 
-        printPersons(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getAge() >= 15;
-            }
-        });
+        printPersons(
+            roster, 
+            (Person p) -> p.getAge() >= 15
+        );
 
-        printPersons(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getAge() >= 18;
-            }
-        });
+        printPersons(
+            roster,
+            (Person p) -> p.getAge() >= 18
+        );
 
-        printPersons(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getAge() < 15;
-            }
-        });
+        printPersons(
+            roster,
+            (Person p) -> p.getAge() < 15
+        );
 
-        printPersons(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getAge() < 18;
-            }
-        });
+        printPersons(
+            roster,
+            (Person p) -> p.getAge() < 18
+        );
 
-        printPersons(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getAge() >= 15 && p.getAge() < 18;
-            }
-        });
+        printPersons(
+            roster,
+            (Person p) -> p.getAge() >= 15 && p.getAge() < 18
+        );
 
-        printPersons(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE;
-            }
-        });
+        printPersons(
+            roster,
+            (Person p) -> p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE
+        );
 
-        printPersons(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getGender() == Person.PERSON_FEMALE;
-            }
-        });
+        printPersons(
+            roster,
+            (Person p) -> p.getGender() == Person.PERSON_FEMALE
+        );
 
-        refreshAges(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getServer() == Person.SERVER_LONDON;
-            }
-        });
+        refreshAges(
+            roster,
+            (Person p) -> p.getServer() == Person.SERVER_LONDON
+        );
 
-        refreshAddresses(roster, new CheckPerson(){
-            @Override
-            public boolean test(Person p){
-                return p.getServer() == Person.SERVER_CAIRO;
-            }
-        });
+        refreshAddresses(
+            roster,
+            (Person p) -> p.getServer() == Person.SERVER_CAIRO
+        );
 
     }
 
