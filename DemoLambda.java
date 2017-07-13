@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class DemoLambda{
 
@@ -46,80 +47,76 @@ public class DemoLambda{
 
         printPersons(
             roster, 
-            (Person p) -> p.getAge() >= 15
+            p -> p.getAge() >= 15
         );
 
         printPersons(
             roster,
-            (Person p) -> p.getAge() >= 18
+            p -> p.getAge() >= 18
         );
 
         printPersons(
             roster,
-            (Person p) -> p.getAge() < 15
+            p -> p.getAge() < 15
         );
 
         printPersons(
             roster,
-            (Person p) -> p.getAge() < 18
+            p -> p.getAge() < 18
         );
 
         printPersons(
             roster,
-            (Person p) -> p.getAge() >= 15 && p.getAge() < 18
+            p -> p.getAge() >= 15 && p.getAge() < 18
         );
 
         printPersons(
             roster,
-            (Person p) -> p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE
+            p -> p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE
         );
 
         printPersons(
             roster,
-            (Person p) -> p.getGender() == Person.PERSON_FEMALE
+            p -> p.getGender() == Person.PERSON_FEMALE
         );
 
         refreshAges(
             roster,
-            (Person p) -> p.getServer() == Person.SERVER_LONDON
+            p -> p.getServer() == Person.SERVER_LONDON
         );
 
         refreshAddresses(
             roster,
-            (Person p) -> p.getServer() == Person.SERVER_CAIRO
+            p -> p.getServer() == Person.SERVER_CAIRO
         );
 
     }
 
-    public static void printPersons(List<Person> r, CheckPerson c){
+    public static void printPersons(List<Person> r, Predicate<Person> pre){
         for (Person p: r){
-            if (c.test(p)){
+            if (pre.test(p)){
                 System.out.println(p);
             }
         }
         System.out.println();
     }
     
-    public static void refreshAges(List<Person> r, CheckPerson c){
+    public static void refreshAges(List<Person> r, Predicate<Person> pre){
         for (Person p: r){
-            if (c.test(p)){
+            if (pre.test(p)){
                 p.refreshAge();
             }
         }
         System.out.println();
     }
 
-    public static void refreshAddresses(List<Person> r, CheckPerson c){
+    public static void refreshAddresses(List<Person> r, Predicate<Person> pre){
         for (Person p: r){
-            if (c.test(p)){
+            if (pre.test(p)){
                 p.refreshAddress();
             }
         }
         System.out.println();
-    }
-
-    public interface CheckPerson{
-        public boolean test(Person p);
     }
 
     public static class Person {
