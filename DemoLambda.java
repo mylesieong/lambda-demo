@@ -43,78 +43,109 @@ public class DemoLambda{
     }
 
     public static void main(String[] args){
-        printPersonOlderThan(roster, 15);
-        printPersonOlderThan(roster, 18);
-        printPersonYoungerThan(roster,15);
-        printPersonYoungerThan(roster,18);
-        printPersonWithinAgeRange(roster, 15, 18);
-        printPersonAdultMale(roster);
-        printPersonFemale(roster);
-        refreshAgeByServer(roster, Person.SERVER_LONDON);
-        refreshAddressByServer(roster, Person.SERVER_CAIRO);
+        printPersons(roster, new CheckPersonOlderThan15());
+        printPersons(roster, new CheckPersonOlderThan18());
+        printPersons(roster, new CheckPersonYoungerThan15());
+        printPersons(roster, new CheckPersonYoungerThan18());
+        printPersons(roster, new CheckPersonWithinRange15To18());
+        printPersons(roster, new CheckPersonAdultMale());
+        printPersons(roster, new CheckPersonFemale());
+        refreshAges(roster, new CheckPersonServerLondon());
+        refreshAddresses(roster, new CheckPersonServerCairo());
     }
 
-    public static void printPersonOlderThan(List<Person> r, int a){
+    public static void printPersons(List<Person> r, CheckPerson c){
         for (Person p: r){
-            if (p.getAge() >= a){
-                System.out.println(p);
-            }
-        }
-        System.out.println();
-    }
-
-    public static void printPersonYoungerThan(List<Person> r, int a){
-        for (Person p: r){
-            if (p.getAge() < a){
-                System.out.println(p);
-            }
-        }
-        System.out.println();
-    }
-
-    public static void printPersonWithinAgeRange(List<Person> r, int floor, int ceiling){
-        for (Person p: r){
-            if (p.getAge() < ceiling && p.getAge() >= floor){
-                System.out.println(p);
-            }
-        }
-        System.out.println();
-    }
-
-    public static void printPersonAdultMale(List<Person> r){
-        for (Person p: r){
-            if (p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE){
-                System.out.println(p);
-            }
-        }
-        System.out.println();
-    }
-
-    public static void printPersonFemale(List<Person> r){
-        for (Person p: r){
-            if (p.getGender() == Person.PERSON_FEMALE){
+            if (c.test(p)){
                 System.out.println(p);
             }
         }
         System.out.println();
     }
     
-    public static void refreshAgeByServer(List<Person> r, int s){
+    public static void refreshAges(List<Person> r, CheckPerson c){
         for (Person p: r){
-            if (p.getServer() == s){
+            if (c.test(p)){
                 p.refreshAge();
             }
         }
         System.out.println();
     }
 
-    public static void refreshAddressByServer(List<Person> r, int s){
+    public static void refreshAddresses(List<Person> r, CheckPerson c){
         for (Person p: r){
-            if (p.getServer() == s){
+            if (c.test(p)){
                 p.refreshAddress();
             }
         }
         System.out.println();
+    }
+
+    public interface CheckPerson{
+        public boolean test(Person p);
+    }
+
+    public static class CheckPersonOlderThan15 implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getAge() >= 15; 
+        } 
+    }
+
+    public static class CheckPersonOlderThan18 implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getAge() >= 18; 
+        } 
+    }
+
+    public static class CheckPersonYoungerThan15 implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getAge() < 15; 
+        } 
+    }
+
+    public static class CheckPersonYoungerThan18 implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getAge() < 18; 
+        } 
+    }
+
+    public static class CheckPersonWithinRange15To18 implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getAge() >= 15 && p.getAge() < 18; 
+        } 
+    }
+
+    public static class CheckPersonAdultMale implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE ; 
+        } 
+    }
+
+    public static class CheckPersonFemale implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getGender() == Person.PERSON_FEMALE ; 
+        } 
+    }
+
+    public static class CheckPersonServerLondon implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getServer() == Person.SERVER_LONDON; 
+        } 
+    }
+
+    public static class CheckPersonServerCairo implements CheckPerson {
+        @Override
+        public boolean test(Person p){ 
+            return p.getServer() == Person.SERVER_CAIRO; 
+        } 
     }
 
     public static class Person {
