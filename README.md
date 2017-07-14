@@ -143,3 +143,20 @@ DemoLambda
         + getters & setters
         + toString(): String
 ```
+
+### Stage 6: Use aggregation operations of collection 
+Why? simple!
+```
+DemoLambda
+    + roster: List<Person>
+    + main(String[]): void
+        <calls> aggregation-operations(provided by collection) x 9 times w/ Lambda
+
+    + Person
+        + getters & setters
+        + toString(): String
+```
+
+## How to add mappers
+* Function<K,V> interface can be used
+* Stream.map(Function<K,V>) can be used w/o needing to define custom wrapping method like processPersons.

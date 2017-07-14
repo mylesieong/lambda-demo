@@ -46,69 +46,51 @@ public class DemoLambda{
 
     public static void main(String[] args){
 
-        processPersons(
-            roster, 
-            p -> p.getAge() >= 15,
-            p -> System.out.println(p)
-        );
+        roster
+            .stream()
+            .filter(p -> p.getAge() >= 15)
+            .forEach(p -> System.out.println(p));
 
-        processPersons(
-            roster,
-            p -> p.getAge() >= 18,
-            p -> System.out.println(p)
-        );
+        roster
+            .stream()
+            .filter(p -> p.getAge() >= 18)
+            .forEach(p -> System.out.println(p));
 
-        processPersons(
-            roster,
-            p -> p.getAge() < 15,
-            p -> System.out.println(p)
-        );
+        roster
+            .stream()
+            .filter(p -> p.getAge() < 15)
+            .forEach(p -> System.out.println(p));
 
-        processPersons(
-            roster,
-            p -> p.getAge() < 18,
-            p -> System.out.println(p)
-        );
+        roster
+            .stream()
+            .filter(p -> p.getAge() < 18)
+            .forEach(p -> System.out.println(p));
 
-        processPersons(
-            roster,
-            p -> p.getAge() >= 15 && p.getAge() < 18,
-            p -> System.out.println(p)
-        );
+        roster
+            .stream()
+            .filter(p -> p.getAge() >= 15 && p.getAge() < 18)
+            .forEach(p -> System.out.println(p));
 
-        processPersons(
-            roster,
-            p -> p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE,
-            p -> System.out.println(p)
-        );
+        roster
+            .stream()
+            .filter(p -> p.getAge() >= 18 && p.getGender() == Person.PERSON_MALE)
+            .forEach(p -> System.out.println(p));
 
-        processPersons(
-            roster,
-            p -> p.getGender() == Person.PERSON_FEMALE,
-            p -> System.out.println(p)
-        );
+        roster
+            .stream()
+            .filter(p -> p.getGender() == Person.PERSON_FEMALE)
+            .forEach(p -> System.out.println(p));
 
-        processPersons(
-            roster,
-            p -> p.getServer() == Person.SERVER_LONDON,
-            p -> p.refreshAge()
-        );
+        roster
+            .stream()
+            .filter(p -> p.getServer() == Person.SERVER_LONDON)
+            .forEach(p -> p.refreshAge());
 
-        processPersons(
-            roster,
-            p -> p.getServer() == Person.SERVER_CAIRO,
-            p -> p.refreshAddress()
-        );
+        roster
+            .stream()
+            .filter(p -> p.getServer() == Person.SERVER_CAIRO)
+            .forEach(p -> p.refreshAddress());
 
-    }
-
-    public static void processPersons(List<Person> r, Predicate<Person> pre, Consumer<Person> con){
-        for (Person p: r){
-            if (pre.test(p)) {
-                con.accept(p);
-            }
-        }
-        System.out.println();
     }
 
     public static class Person {
